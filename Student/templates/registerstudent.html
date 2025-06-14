@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    {% extends "base.html" %}
+
+
+    {% block title_block %} Register Student {% endblock %}
+
+
+    {% block main_block %}
+    <h3 class="text-center">New Student Registration Screen</h3>
+
+
+    <div class="container">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="name" class="form-label">Enter Student Name:</label>
+                <input type="text" id="name" name="name" required class="form-control">
+            </div>
+
+
+            <div class="mb-3">
+                <label for="email" class="form-label">Enter Email:</label>
+                <input type="email" id="email" name="email" required class="form-control">
+            </div>
+
+
+            <div class="mb-3">
+                <label for="address" class="form-label">Enter Address:</label>
+                <input type="text" id="address" name="address" required class="form-control">
+            </div>
+
+
+            <div class="mb-3">
+                <label for="gender" class="form-label">Select Gender:</label>
+                <select id="gender" name="gender" required class="form-control">
+                    <option value="">Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+
+
+                </select>
+            </div>
+
+
+            <div class="mb-3">
+                <label class="form-label">Select Courses:</label>
+
+
+                {% for course in courses %}
+
+
+                <input class="form-check-input" type="checkbox" name="courses" id="course_{{course.course_id}}"
+                    value="{{course.course_id}}">
+                <label class="form-check-label" for="course_{{course.course_id}}">
+                    {{course.cname}}
+                </label>
+
+
+                {% empty %}
+                <p>No courses available. Please add courses first.</p>
+                {% endfor %}
+            </div>
+
+
+            <div class="mb-3">
+                <label for="qualification" class="form-label">Select Qualification:</label>
+                <select id="qualification" name="qualification" required class="form-control">
+                    <option value="">Select Qualification</option>
+                    <option value="B.Tech">B.Tech</option>
+                    <option value="M.Tech">M.Tech</option>
+                    <option value="BCA">BCA</option>
+                    <option value="MCA">MCA</option>
+                </select>
+            </div>
+
+
+            <input type="submit" value="Register Student" class="btn btn-success">
+        </form>
+
+
+        <hr>
+
+
+        {% if students %}
+
+
+        <table class="table table-dark">
+
+
+            <thead>
+
+
+                <tr>
+                    <td>Roll</td>
+                    <td>Student Name</td>
+                    <td>Email</td>
+                    <td>Address</td>
+                    <td>Gender</td>
+                    <td>Qualification</td>
+                    <td>Courses</td>
+
+
+                </tr>
+
+
+            </thead>
+
+
+            <tbody>
+                {% for student in students %}
+                <tr>
+                    <td>{{student.roll}}</td>
+                    <td>{{student.name}}</td>
+                    <td>{{student.email}}</td>
+                    <td>{{student.address}}</td>
+                    <td>{{student.gender}}</td>
+                    <td>{{student.qualification}}</td>
+                    <td>{{student.courses.all | join:", "}}</td>
+
+
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+    </div>
+    {% endblock %}
+
+
+
+
+</body>
+
+</html>

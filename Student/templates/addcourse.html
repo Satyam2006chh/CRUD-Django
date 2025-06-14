@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    {% extends "base.html" %}
+
+
+    {% block title_block %} Add Course {% endblock %}
+
+
+    {% block main_block %}
+
+
+    <h3 class="text-center">New Course Addition Screen</h3>
+
+
+    <div class="container">
+
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="cname" class="form-label">Enter Course Name:</label>
+                <input type="text" id="cname" name="cname" required class="form-control">
+            </div>
+
+
+            <div class="mb-3">
+                <label for="fee" class="form-label">Enter Course Fee:</label>
+                <input type="number" id="fee" name="fee" required class="form-control">
+            </div>
+
+
+            <div class="mb-3">
+                <label for="duration" class="form-label">Enter Course Duration:</label>
+                <input type="text" id="duration" name="duration" required class="form-control">
+            </div>
+
+
+            <input type="submit" value="AddCourse" class="btn btn-success">
+        </form>
+    </div>
+    <hr>
+
+
+    {% if courses %}
+
+
+    <div class="container">
+
+
+        <table class="table table-dark">
+
+
+            <thead>
+                <tr>
+                    <th class="col-2">CourseId</th>
+                    <th class="col-2">CourseName</th>
+                    <th class="col-2">Fee</th>
+                    <th class="col-2">Duration</th>
+                    <th class="col-4">Action</th>
+                </tr>
+
+
+            </thead>
+
+
+            <tbody>
+
+
+                {% for course in courses %}
+                <tr>
+                    <td>{{course.course_id}}</td>
+                    <td>{{course.cname}}</td>
+                    <td>{{course.fee}}</td>
+                    <td>{{course.duration}}</td>
+                    <td>
+                        <a href="{% url 'update_course' course.course_id %}" class="btn btn-primary">UPDATE</a>
+                        <a href="{% url 'delete_course' course.course_id %}" class="btn btn-success">DELETE</a>
+                        <a href="{% url 'course_student_list' course.course_id %}" class="btn btn-danger">STUDENTLIST</a>
+                    </td>
+
+
+
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+    {% endblock %}
+
+
+</body>
+
+</html>
